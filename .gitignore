@@ -1,7 +1,6 @@
 ssl/*
 db/data/*
 master/logs/*
-master/overrides/*
 master/schema.rb
-master/database.yml
 config/credentials.yml
+config/database.yml
