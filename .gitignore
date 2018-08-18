@@ -4,3 +4,4 @@ master/logs/*
 master/schema.rb
 config/credentials.yml
 config/database.yml
+load-balancer/default.conf

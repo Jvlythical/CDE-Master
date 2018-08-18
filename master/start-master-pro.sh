@@ -19,15 +19,21 @@ if [ -z $MAILGUN_API_KEY ]; then
 	exit
 fi
 
+container_name=$1
+if [ -z "$container_name" ]; then
+	container_name=cde-master
+fi
+
 # Master
-docker run -d --name cde-master -p 8080:8080 \
+docker run -d --name $container_name \
 --link cde-cache:memcache \
 --link cde-database-production:cde-database-production \
 -v $(pwd)/../config/database.yml:$database_conf_path \
 -v $(pwd)/logs/production.log:$production_log_path \
--v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
--v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
 -v $(pwd)/schema.rb:$schema_path \
 -e "DRIVES_ROOT=$drives_path" -e "SYSTEM_ROOT=$system_path" -e "RAILS_ENV=production" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAILGUN_API_KEY" \
-jvlythical/cde-master:3.8.0-rc sh -c '/sbin/run.sh'
+jvlythical/cde-master:3.9.0-rc sh -c '/sbin/run.sh'
+
+#-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
+#-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
