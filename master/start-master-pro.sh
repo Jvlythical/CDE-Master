@@ -6,8 +6,14 @@ database_conf_path=$rails_root/config/database.yml
 production_log_path=$rails_root/log/production.log
 schema_path=$rails_root/db/schema.rb
 
-# Export ENV variables
-export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/credentials.yml)
+
+if [ -z $(ls ../config/credentials.yml 2> /dev/null) ]; then
+	echo 'Please create config/credentials.yml'
+	exit
+else
+	# Export ENV variables
+	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/credentials.yml)
+fi
 
 if [ -z $MAILGUN_DOMAIN ]; then
 	echo "MAILGUN_DOMAIN is not set."
