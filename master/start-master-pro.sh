@@ -33,7 +33,8 @@ docker run -d --name $container_name \
 -v $(pwd)/schema.rb:$schema_path \
 -e "DRIVES_ROOT=$drives_path" -e "SYSTEM_ROOT=$system_path" -e "RAILS_ENV=production" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAILGUN_API_KEY" \
-jvlythical/cde-master:3.9.0-rc sh -c '/sbin/run.sh'
+-e "STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY" -e "STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY" \
+jvlythical/cde-master:4.0.3-rc sh -c '/sbin/run.sh'
 
 #-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
 #-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
