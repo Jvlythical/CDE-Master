@@ -6,7 +6,7 @@ database_conf_path=$rails_root/config/database.yml
 schema_path=$rails_root/db/schema.rb
 
 # Export ENV variables
-export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/credentials.yml)
+export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
 
 if [ -z $MAILGUN_DOMAIN ]; then
 	echo "MAILGUN_DOMAIN is not set."

@@ -3,5 +3,7 @@ db/data/*
 master/logs/*
 master/schema.rb
 config/credentials.yml
+config/schema.rb
 config/database.yml
 load-balancer/default.conf
+reverse-proxy/certs

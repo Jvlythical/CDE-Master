@@ -24,19 +24,13 @@ if [ -z $(ls /usr/local/bin/docker-compose) ]; then
 	sudo chmod +x /usr/local/bin/docker-compose
 fi
 
+cd reverse-proxy && sh start-reverse-proxy.sh
+
 cd db && docker-compose up -d; cd ..
 cd cache && sh start-cache.sh; cd ..
 cd frontend && sh start-frontend-pro.sh; cd ..
 cd master && sh start-master-pro.sh; cd ..
 
-# If the temp node has not been started, create one
-master_container_name=$(docker ps -lq)
-master_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $master_container_name 2> /dev/null)
-
 # Update the current default.conf to use the  master's ip addr
 cd load-balancer
-s="\tserver $master_ip_addr fail_timeout=30;\n"
-sed -e "s/__MARKER__/$s/" template.conf > default.conf
 sh start-load-balancer.sh; cd ..
-
-cd reverse-proxy && sh start-reverse-proxy.sh

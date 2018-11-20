@@ -1,18 +1,9 @@
-# Container related settings
-rails_root=/usr/share/nginx/html
-drives_path=$rails_root/private/drives
-system_path=$rails_root/private/system
-database_conf_path=$rails_root/config/database.yml
-production_log_path=$rails_root/log/production.log
-schema_path=$rails_root/db/schema.rb
-
-
-if [ -z $(ls ../config/credentials.yml 2> /dev/null) ]; then
-	echo 'Please create config/credentials.yml'
+if [ -z $(ls ../config/env.yml 2> /dev/null) ]; then
+	echo 'Please create config/env.yml'
 	exit
 else
 	# Export ENV variables
-	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/credentials.yml)
+	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
 fi
 
 if [ -z $MAILGUN_DOMAIN ]; then
@@ -30,13 +21,37 @@ if [ -z "$container_name" ]; then
 	container_name=cde-master
 fi
 
+log_file=$(pwd)/logs/production.log
+if [ ! -e "$log_file" ]; then
+	mkdir logs 2> /dev/null
+	touch "$log_file"
+fi
+
+database_config=$(pwd)/../config/database.yml
+if [ ! -e "$datbase_config" ]; then
+	touch "$database_config"
+fi
+
+schema_file=$(pwd)/schema.rb
+if [ ! -e "$schema_file" ]; then
+	touch "$schema_file"
+fi
+
+# Container related settings
+rails_root=/usr/share/nginx/html
+drives_path=$rails_root/private/drives
+system_path=$rails_root/private/system
+database_conf_path=$rails_root/config/database.yml
+production_log_path=$rails_root/log/production.log
+schema_path=$rails_root/db/schema.rb
+
 # Master
 docker run -d --name $container_name \
 --link cde-cache:memcache \
 --link cde-database-production:cde-database-production \
--v $(pwd)/../config/database.yml:$database_conf_path \
--v $(pwd)/logs/production.log:$production_log_path \
--v $(pwd)/schema.rb:$schema_path \
+-v $database_config:$database_conf_path \
+-v $log_file:$production_log_path \
+-v $schema_file:$schema_path \
 -e "DRIVES_ROOT=$drives_path" -e "SYSTEM_ROOT=$system_path" -e "RAILS_ENV=production" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAILGUN_API_KEY" \
 -e "STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY" -e "STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY" \
