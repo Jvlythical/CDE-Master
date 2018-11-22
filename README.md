@@ -1,7 +1,7 @@
 ## Edit
-config/database.yml
+config/database.yml  
 config/env.yml
 
 ## Run
-sh utils/setup.sh
+sh utils/setup.sh  
 sh init.sh
