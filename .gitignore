@@ -7,4 +7,5 @@ config/schema.rb
 config/database.yml
 config/env.yml
 load-balancer/default.conf
+frontend/webapp.conf
 reverse-proxy/certs
