@@ -14,7 +14,7 @@ if [ -z $(which docker) ]; then
 	sudo apt-get update
 	sudo apt-get install -y docker-ce=17.09.0~ce-0~ubuntu 
 	sudo usermod -aG docker $USER
-	echo 'Please logout and then log back in.'	
+	echo 'Please logout, log back in, and re-run this script.'	
 	exit
 fi
 
