@@ -19,7 +19,7 @@ echo "Started backup master with ip addr: $temp_ip_addr"
 # Update the current default.conf to use the temp master's ip addr
 cd load-balancer; cat default.conf > default.conf.bak
 s="\tserver $temp_ip_addr fail_timeout=30;\n"
-sed -e "s/__MARKER__/$s/" template.conf > default.conf
+sed -e "s/__MARKER__/$s/" templates/template.conf > default.conf
 cd ..
 sleep 5
 docker exec $lb_name service nginx reload
@@ -38,7 +38,7 @@ new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $master
 echo "Old ip addr: $old_ip_addr - New ip addr: $new_ip_addr"
 s="\tserver $new_ip_addr fail_timeout=30;\n"
 cd load-balancer
-sed -e "s/__MARKER__/$s/" template.conf > default.conf
+sed -e "s/__MARKER__/$s/" templates/template.conf > default.conf
 docker exec $lb_name service nginx reload
 cd ..
 
