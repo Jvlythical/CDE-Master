@@ -14,7 +14,7 @@ if [ -z $USE_LETSENCRYPT ]; then
 	s="\nssl on;\nssl_certificate /etc/ssl/ssl-bundle.crt;\nssl_certificate_key /etc/ssl/kodethon.key;\n"
 	sed -i "s/__SSL__/$s/" webapp.conf
 
-	docker run -d --name cde-frontend \
+	docker run -d --name cde-frontend -p 80:80 -p 443:443 \
 	-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
 	-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
 	-v $(pwd)/webapp.conf:/etc/nginx/conf.d/webapp.conf \
