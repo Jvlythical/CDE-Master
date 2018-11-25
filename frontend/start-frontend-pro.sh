@@ -8,6 +8,7 @@ else
 	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
 fi
 
+image=jvlythical/cde-frontend:4.0.4-rc
 if [ -z $USE_LETSENCRYPT ]; then
 	# Replace hostname marker with node host
 	sed -e "s/__HOSTNAME__/$FRONTEND_HOSTNAME/" templates/template.conf > webapp.conf
@@ -18,7 +19,7 @@ if [ -z $USE_LETSENCRYPT ]; then
 	-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
 	-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
 	-v $(pwd)/webapp.conf:/etc/nginx/conf.d/webapp.conf \
-	jvlythical/cde-frontend:4.0.3-rc
+	$image	
 else
 	echo 'Using letsencrypt...'
 
@@ -31,7 +32,7 @@ else
 		-e "LETSENCRYPT_HOST=$FRONTEND_HOSTNAME" \
 		-e "LETSENCRYPT_EMAIL=$NODE_OWNER" \
 		-v $(pwd)/webapp.conf:/etc/nginx/conf.d/webapp.conf \
-		jvlythical/cde-frontend:4.0.3-rc
+		$image
 
 	docker exec cde-frontend sh -c "ls scripts | grep scripts | xargs -I {} sed -i 's/location.host+\":8080/\"$BACKEND_HOSTNAME/' scripts/{}"
 
