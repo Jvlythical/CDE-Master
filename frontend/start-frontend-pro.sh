@@ -12,8 +12,8 @@ image=jvlythical/cde-frontend:4.0.4-rc
 if [ -z $USE_LETSENCRYPT ]; then
 	# Replace hostname marker with node host
 	sed -e "s/__HOSTNAME__/$FRONTEND_HOSTNAME/" templates/template.conf > webapp.conf
-	s="\nssl on;\nssl_certificate /etc/ssl/ssl-bundle.crt;\nssl_certificate_key /etc/ssl/kodethon.key;\n"
-	sed -i "s/__SSL__/$s/" webapp.conf
+	#s="\nssl on;\nssl_certificate /etc/ssl/ssl-bundle.crt;\nssl_certificate_key /etc/ssl/kodethon.key;\n"
+	#sed -i "s/__SSL__/$s/" webapp.conf
 
 	docker run -d --name cde-frontend -p 80:80 -p 443:443 \
 	-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
