@@ -25,4 +25,4 @@ docker run -it --name cde-db-console \
 -v $(pwd)/schema.rb:$schema_path \
 -e "DRIVES_ROOT=$drives_path" -e "SYSTEM_ROOT=$system_path" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAINGUN_API_KEY" \
-jvlythical/cde-master:4.0.3-rc sh -c '/bin/bash'
+jvlythical/cde-master:4.0.5-rc sh -c '/bin/bash'
