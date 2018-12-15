@@ -1,12 +1,12 @@
-## Setup
+## 1. Setup
 ```
 sh utils/setup.sh  
 ```
 
-## Configuration
+## 2. Configuration
 Created **config/database.yml** and **config/env.yml**
 
-## Initialize
+## 3. Initialize
 ```
 sh init.sh
 ```
