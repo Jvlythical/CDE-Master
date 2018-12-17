@@ -4,3 +4,4 @@ docker start cde-cache
 docker start cde-master
 docker start cde-load-balancer
 sh migrate.sh
+docker start nginx-proxy
