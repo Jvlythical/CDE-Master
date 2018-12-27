@@ -8,6 +8,9 @@ if [ -z $(ls config/database.yml 2> /dev/null) ]; then
 	exit
 fi
 
+# Create network for datadog
+docker network create docker-internal
+
 # Export ENV variables
 export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' config/env.yml)
 
