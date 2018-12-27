@@ -7,12 +7,12 @@ docker start $temp_master 2> /dev/null
 sleep 1
 
 # If the temp node has not been started, create one
-temp_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $temp_master 2> /dev/null)
+temp_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $temp_master 2> /dev/null)
 if [ -z "$(docker ps | grep $temp_master)" ]; then
 	echo 'No backup node available, starting one...'
 	cd master; sh start-master-pro.sh $temp_master; cd ..
 	sleep 5
-	temp_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $temp_master)
+	temp_ip_addr=$($docker_container_ip_addr $temp_master)
 fi
 echo "Started backup master with ip addr: $temp_ip_addr"
 
@@ -33,8 +33,8 @@ sh driver.sh
 sleep 10
 
 # Create a new default.conf
-old_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $temp_master)
-new_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $master)
+old_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $temp_master)
+new_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $master)
 echo "Old ip addr: $old_ip_addr - New ip addr: $new_ip_addr"
 s="\tserver $new_ip_addr fail_timeout=30;\n"
 cd load-balancer
