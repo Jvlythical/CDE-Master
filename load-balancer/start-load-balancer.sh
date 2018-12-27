@@ -17,6 +17,7 @@ if [ -z $USE_LETSENCRYPT ]; then
 	sed -i "s/__HOSTNAME__/$BACKEND_HOSTNAME/" default.conf
 
 	docker run -d -p 8080:443 --name $name \
+		--network docker-internal \
 		-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
 		-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
 		-v $(pwd)/default.conf:/etc/nginx/conf.d/default.conf:rw \
@@ -28,6 +29,7 @@ else
 	sed -i "s/__HOSTNAME__/$BACKEND_HOSTNAME/" default.conf
 
 	docker run -d --name $name \
+		--network docker-internal \
 		-e "VIRTUAL_HOST=$BACKEND_HOSTNAME"  \
 		-e "LETSENCRYPT_HOST=$BACKEND_HOSTNAME" \
 		-e "LETSENCRYPT_EMAIL=$NODE_OWNER" \

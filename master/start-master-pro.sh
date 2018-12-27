@@ -47,15 +47,17 @@ schema_path=$rails_root/db/schema.rb
 
 # Master
 docker run -d --name $container_name \
---link cde-cache:memcache \
---link cde-database-production:cde-database-production \
+--network docker-internal \
 -v $database_config:$database_conf_path \
 -v $log_file:$production_log_path \
 -v $schema_file:$schema_path \
 -e "DRIVES_ROOT=$drives_path" -e "SYSTEM_ROOT=$system_path" -e "RAILS_ENV=production" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAILGUN_API_KEY" \
 -e "STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY" -e "STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY" \
-jvlythical/cde-master:4.0.6-rc sh -c '/sbin/run.sh'
+-e "MEMCACHE_HOSTNAME=cde-cache" \
+jvlythical/cde-master:4.0.7-rc sh -c '/sbin/run.sh'
 
 #-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
 #-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
+#--link cde-cache:memcache \
+#--link cde-database-production:cde-database-production \
