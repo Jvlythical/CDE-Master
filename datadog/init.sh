@@ -4,7 +4,7 @@ if [ -z $(ls ../config/env.yml 2> /dev/null) ]; then
 else
 	# Export ENV variables
 	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
-f
+fi
 
 docker run -d --name datadog-agent \
   --network docker-internal \
