@@ -46,7 +46,7 @@ production_log_path=$rails_root/log/production.log
 schema_path=$rails_root/db/schema.rb
 
 # Master
-docker run -d --name $container_name \
+docker run -d --name $container_name -h "$(uname -n)" \
 --network docker-internal \
 -v $database_config:$database_conf_path \
 -v $log_file:$production_log_path \
