@@ -1,0 +1,8 @@
+ad_identifiers:
+  - memcached
+
+init_config:
+
+instances:
+  - url: cde-cache
+    port: "11211"
