@@ -6,6 +6,7 @@ config/credentials.yml
 config/schema.rb
 config/database.yml
 config/env.yml
+config/private_key.pem
 load-balancer/default.conf
 frontend/webapp.conf
 reverse-proxy/certs
