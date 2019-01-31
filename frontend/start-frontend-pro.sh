@@ -8,7 +8,7 @@ else
 	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
 fi
 
-image=jvlythical/cde-frontend:4.0.9-rc
+image=jvlythical/cde-frontend:4.1.1-rc
 if [ -z $USE_LETSENCRYPT ]; then
 	# Replace hostname marker with node host
 	sed -e "s/__HOSTNAME__/$FRONTEND_HOSTNAME/" templates/template.conf > webapp.conf

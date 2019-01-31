@@ -62,7 +62,7 @@ docker run -d --name $container_name -h "$(uname -n)" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAILGUN_API_KEY" \
 -e "STRIPE_PUBLISHABLE_KEY=$STRIPE_PUBLISHABLE_KEY" -e "STRIPE_SECRET_KEY=$STRIPE_SECRET_KEY" \
 -e "MEMCACHE_HOSTNAME=cde-cache" \
-jvlythical/cde-master:4.0.9-rc sh -c '/sbin/run.sh'
+jvlythical/cde-master:4.1.1-rc sh -c '/sbin/run.sh'
 
 #-v $(pwd)/../ssl/ssl-bundle.crt:/etc/ssl/ssl-bundle.crt \
 #-v $(pwd)/../ssl/kodethon.key:/etc/ssl/kodethon.key \
