@@ -9,7 +9,7 @@ else
 fi
 
 master_container_name=cde-master
-master_ip_addr=$(docker inspect --format '{{ .NetworkSettings.IPAddress }}' $master_container_name 2> /dev/null)
+master_ip_addr=$(docker inspect --format '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $master_container_name 2> /dev/null)
 s="\tserver $master_ip_addr fail_timeout=30;\n"
 
 if [ -z $USE_LETSENCRYPT ]; then
