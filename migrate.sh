@@ -18,14 +18,23 @@ echo "Started backup master with ip addr: $temp_ip_addr"
 
 # Update the current default.conf to use the temp master's ip addr
 cd load-balancer; cat default.conf > default.conf.bak
+if [ -z $(ls ../config/env.yml 2> /dev/null) ]; then
+	echo 'Please create config/env.yml'
+	exit
+else
+	# Export ENV variables
+	export $(sed -e 's/:[^:\/\/]/=/g;s/$//g;s/ *=/=/g' ../config/env.yml)
+fi
 s="\tserver $temp_ip_addr fail_timeout=30;\n"
 if [ -z $USE_LETSENCRYPT ]; then
-	sed -e "s/__MARKER__/$s/" templates/template.conf > default.conf
+	sed -e "s/__MARKER__/$s/" templates/template.conf > tmp.conf
 else
 	echo 'Using letsencrypt...'
-	sed -e "s/__MARKER__/$s/" templates/letsencrypt_template.conf > default.conf
+	sed -e "s/__MARKER__/$s/" templates/letsencrypt_template.conf > tmp.conf
 fi
-sed -i "s/__HOSTNAME__/$BACKEND_HOSTNAME/" default.conf
+sed -i "s/__HOSTNAME__/$BACKEND_HOSTNAME/" tmp.conf
+# Do not use in place replacement! Will break docker mount :/
+cat tmp.conf > default.conf && rm tmp.conf
 cd ..
 sleep 5
 docker exec $lb_name service nginx reload
@@ -45,13 +54,14 @@ echo "Old ip addr: $old_ip_addr - New ip addr: $new_ip_addr"
 s="\tserver $new_ip_addr fail_timeout=30;\n"
 cd load-balancer
 if [ -z $USE_LETSENCRYPT ]; then
-	sed -e "s/__MARKER__/$s/" templates/template.conf > default.conf
+	sed -e "s/__MARKER__/$s/" templates/template.conf > tmp.conf
 else
 	echo 'Using letsencrypt...'
 
-	sed -e "s/__MARKER__/$s/" templates/letsencrypt_template.conf > default.conf
+	sed -e "s/__MARKER__/$s/" templates/letsencrypt_template.conf > tmp.conf
 fi
-sed -i "s/__HOSTNAME__/$BACKEND_HOSTNAME/" default.conf
+sed -i "s/__HOSTNAME__/$BACKEND_HOSTNAME/" tmp.conf
+cat tmp.conf > default.conf && rm tmp.conf
 docker exec $lb_name service nginx reload
 cd ..
 
