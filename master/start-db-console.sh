@@ -20,9 +20,8 @@ fi
 
 # Master
 docker run -it --name cde-db-console \
---link cde-database-production:cde-database-production \
 -v $(pwd)/../config/database.yml:$database_conf_path \
 -v $(pwd)/schema.rb:$schema_path \
 -e "DRIVES_ROOT=$drives_path" -e "SYSTEM_ROOT=$system_path" \
 -e "MAILGUN_DOMAIN=$MAILGUN_DOMAIN" -e "MAILGUN_API_KEY=$MAINGUN_API_KEY" \
-jvlythical/cde-master:4.1.1-rc sh -c '/bin/bash'
+jvlythical/cde-master:4.2.0-rc sh -c '/bin/bash'

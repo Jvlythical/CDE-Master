@@ -3,5 +3,6 @@ docker start cde-database-production
 docker start cde-cache
 docker start cde-master
 docker start cde-load-balancer
+docker start datadog-agent
 sh migrate.sh
 docker start nginx-proxy
