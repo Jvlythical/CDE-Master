@@ -1,6 +1,6 @@
 ssl/*
 db/data/*
-master/logs/*
+master/log/*
 master/schema.rb
 config/credentials.yml
 config/schema.rb
